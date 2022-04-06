@@ -3,7 +3,7 @@ const {expect} = require('chai');
 var firefox = require('selenium-webdriver/firefox');
 //var profilePath = '/home/tsiot/.mozilla/firefox/zoa6kvyg.default';
 var profilePath = '/home/tsiot/.mozilla/firefox/8297bw4u.default-release';
-let TIMEOUT=10000;
+let TIMEOUT=20000;
 
 describe('test multi site with firefox', function() {
    let driver;
@@ -66,6 +66,21 @@ describe('test multi site with firefox', function() {
          expect(element.text).to.equal('Canario');  
       });
    });
+	
+   it('check that the endpoint mult multiplies a by b', async function() {
+	  this.timeout(TIMEOUT);
+	  await driver.get('https://sensor/multiplicar.html');
+	   
+	  await driver.findElement(By.id('a')).sendKeys(6);
+	  await driver.findElement(By.id('b')).sendKeys(3);
+	   
+	  await driver.findElement(By.id('send')).then(element => element.click());
+	   
+	  driver.findElement(By.id('result')).then(element => {
+		  	expect(element.text).to.equal('El resultado de multiplicar 6 por 3 es 18')
+	  });
+   });
+	
 
    after( () =>
       driver && driver.quit()
