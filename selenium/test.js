@@ -76,9 +76,10 @@ describe('test multi site with firefox', function() {
 	   
 	  await driver.findElement(By.id('send')).then(element => element.click());
 	   
-	  driver.findElement(By.id('result')).then(element => {
-		  	expect(element.text).to.equal('El resultado de multiplicar 6 por 3 es 18')
-	  });
+	  var element = await driver.wait(until.elementLocated(By.id('result')), TIMEOUT);
+	  var value = await element.getText();
+	   
+	  expect(value).to.equal('El resultado de multiplicar 6 por 3 es 18');
    });
 	
 
